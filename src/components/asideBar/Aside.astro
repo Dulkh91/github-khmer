@@ -1,0 +1,33 @@
+---
+interface MenuEntry{
+      label: string,
+      href: string
+    }
+
+import MenuTitle from "./MenuTitle.astro"
+
+import { titleToSlug } from "../../utils/titleToSlug.ts";
+import { getCollection } from "astro:content";
+import type { CollectionEntry } from "astro:content";
+
+const allPosts: CollectionEntry<"blogs">[] = await getCollection("blogs");
+
+function makeEntries():MenuEntry[]{
+  return allPosts.map((menu)=>{
+        return{
+        label: menu.data.title,
+        href: menu.data.title? `/answer/${titleToSlug(menu.data.title)}` :'#_'
+      }  
+  })
+}
+
+---
+<div class=" dark:text-white ">
+    <h1 class=" text-xl font-bold w-full bg-gray-700 p-3">Githup Khmer</h1>
+    
+      <MenuTitle menuList={makeEntries()}/>
+    
+  </div>
+</div>
+
+
